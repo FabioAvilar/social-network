@@ -2,7 +2,7 @@ const spicedPg = require("spiced-pg");
 const { hash, genSalt, compare } = require("bcryptjs");
 
 const { DATABASE_USERNAME, DATABASE_PASSWORD } = require("./secrets.json");
-const DATABASE_NAME = "spiced-petition";
+const DATABASE_NAME = "socialnetwork";
 const DATABASE_URL = `postgres:${DATABASE_USERNAME}:${DATABASE_PASSWORD}@localhost:5432/${DATABASE_NAME}`;
 
 const db = spicedPg(DATABASE_URL);

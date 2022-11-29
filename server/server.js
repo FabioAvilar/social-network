@@ -22,22 +22,25 @@ app.use(
 
 app.get("/api/id.json", (req, res) => {
     if (!req.session.user_id) {
-        res.json(req.session);
+        res.json({ user_id: null});
     } else {
-        res.json(req.session.user_id);
+        res.json({user_id: req.session.user_id});
     }
 });
 
-// for createUsers 
+// for createUsers
 app.post("/api/users", async (req, res) => {
-
     try {
         const newUser = await createUser(req.body);
         req.session.user_id = newUser.id;
         res.json({ success: true });
     } catch (error) {
         console.log("teste erro users ", error);
-        res.status(400).json({ error: "oppss ERRORR 😱😱" });
+        if (error.constraint == "users_email_key") {
+            res.status(400).json({ error: "duplicate email " });
+        } else {
+            res.status(500).json({ error: "oppss ERRORR 😱😱" });
+        }
     }
 });
 
@@ -46,25 +49,6 @@ app.post("/api/login", async (req, res) => {
     // if no user is found -> status 401 + json error
     // if user is found -> res.json({ success: true })
     // if there is a generic error -> status 500 + json error
-
-    // const { email_address, password } = req.body;
-    // if (!email_address || !password) {
-    //     res.status(400).json({
-    //         error: "You must fill out every field!",
-    //     });
-    //     return;
-    // }
-
-    // login(req.body).then((foundUser) => {
-    //     if (!foundUser) {
-    //         res.status(401).json({
-    //             error: "Some data doesnt seem alright, please check it out!",
-    //         });
-    //     } else {
-    //         req.session.user_id = foundUser.id;
-    //         res.json({});
-    //     }
-    // });
 
     try {
         // console.log("req.body", req.body)
