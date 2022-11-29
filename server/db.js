@@ -52,7 +52,34 @@ async function login({ email, password }) {
     return foundUser;
 }
 
+// get user by ID
+async function getUserById(id) {
+    const result = await db.query(
+        `
+        SELECT * FROM users WHERE id = $1
+        `,
+        [id]
+    );
+    return result.rows[0];
+}
+
+// for update a foto
+async function updatePicture({profile_picture_url, id}) {
+    const result = await db.query(
+        `
+        UPDATE users 
+        SET profile_picture_url = $1 
+        WHERE id = $2
+        RETURNING *
+        `,
+        [profile_picture_url, id]
+    );
+    return result.rows[0];
+}
+
 module.exports = {
     createUser,
     login,
+    getUserById,
+    updatePicture,
 };

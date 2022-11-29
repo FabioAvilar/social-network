@@ -1,17 +1,19 @@
-import { Link } from "react-router-dom";
+import ProfilePicture from "./profilePicture";
 
-export default function Header() {
-    // const logOut = () => {
-    //     fetch("/api/logout", {
-    //         method: "POST",
-    //     }).then(location.reload());
-    // };
-
+export default function Header({ avatar, setModalVisible }) {
     return (
         <nav>
-            <Link to={"/"} >
-                Log Out
-            </Link>
+            <ul>
+                <li>Home</li>
+                <li>Log Out</li>
+                <ProfilePicture
+                    isEditable
+                    avatar={avatar}
+                    setModalVisible={setModalVisible}
+                >
+                    Log Out
+                </ProfilePicture>
+            </ul>
         </nav>
     );
 }

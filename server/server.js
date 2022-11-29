@@ -4,7 +4,11 @@ const compression = require("compression");
 const path = require("path");
 const { PORT = 3001 } = process.env;
 const cookieSession = require("cookie-session");
-const { createUser, login } = require("./db");
+const { createUser, login, getUserById, updatePicture } = require("./db");
+
+const s3upload = require("./s3");
+const { uploader } = require("./uploader");
+const { AWS_BUCKET } = require("./secrets.json");
 
 app.use(compression());
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
@@ -22,9 +26,9 @@ app.use(
 
 app.get("/api/id.json", (req, res) => {
     if (!req.session.user_id) {
-        res.json({ user_id: null});
+        res.json({ user_id: null });
     } else {
-        res.json({user_id: req.session.user_id});
+        res.json({ user_id: req.session.user_id });
     }
 });
 
@@ -45,11 +49,10 @@ app.post("/api/users", async (req, res) => {
 });
 
 app.post("/api/login", async (req, res) => {
-
     try {
-        console.log("req.body", req.body);
+        // console.log("req.body", req.body);
         const user = await login(req.body);
-        console.log("funçao do login: ", user);
+        // console.log("funçao do login: ", user);
         if (!user) {
             res.status(401).json({
                 error: "Please try again 😬😬",
@@ -63,6 +66,35 @@ app.post("/api/login", async (req, res) => {
         res.status(500).json({ error: "😑😑 wrong" });
     }
 });
+
+app.get("/api/users/me", (req, res) => {
+    getUserById(req.session.user_id).then((user) => {
+        if (!user) {
+            res.json(null);
+            return;
+        }
+        const { first_name, last_name, email, profile_picture_url } = user;
+        res.json({ first_name, last_name, email, profile_picture_url });
+    });
+});
+
+app.post(
+    "/api/users/me/picture",
+    uploader.single("profile_picture_url"),
+    s3upload,
+    async (req, res) => {
+        const url = `https://s3.amazonaws.com/${AWS_BUCKET}/${req.file.filename}`;
+        const image = await updatePicture({ url, ...req.body });
+
+        if (req.file) {
+            res.json(image);
+        } else {
+            res.json({
+                success: false,
+            });
+        }
+    }
+);
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
