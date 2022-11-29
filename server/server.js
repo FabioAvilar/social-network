@@ -45,14 +45,11 @@ app.post("/api/users", async (req, res) => {
 });
 
 app.post("/api/login", async (req, res) => {
-    // find the user with credentials from req.body
-    // if no user is found -> status 401 + json error
-    // if user is found -> res.json({ success: true })
-    // if there is a generic error -> status 500 + json error
 
     try {
-        // console.log("req.body", req.body)
+        console.log("req.body", req.body);
         const user = await login(req.body);
+        console.log("funçao do login: ", user);
         if (!user) {
             res.status(401).json({
                 error: "Please try again 😬😬",

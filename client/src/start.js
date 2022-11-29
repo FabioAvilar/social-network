@@ -1,5 +1,6 @@
 import { createRoot } from "react-dom/client";
 import Welcome from "./pages/welcome";
+import App from "./pages/app";
 
 const root = createRoot(document.querySelector("main"));
 
@@ -9,6 +10,6 @@ fetch("/api/id.json")
         if (!data.user_id) {
             root.render(<Welcome />);
         } else {
-            root.render(<img src="/logo.gif" alt="logo" />);
+            root.render(<App />);
         }
     });

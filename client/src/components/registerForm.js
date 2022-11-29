@@ -33,44 +33,6 @@ const RegisterForm = () => {
         }
     }
 
-    // const [formData, setFormData] = useState({
-    //     first_name: "",
-    //     last_name: "",
-    //     email_address: "",
-    //     password: "",
-    // });
-    // const [error, setError] = useState("");
-
-    // const onInputChange = (e) => {
-    //     e.preventDefault();
-    //     const { name, value } = e.target;
-    //     setFormData((prevState) => ({
-    //         ...prevState,
-    //         [name]: value,
-    //     }));
-    // };
-
-    // const onSubmit = async (e) => {
-    //     e.preventDefault();
-    //     try {
-    //         const response = await fetch("/api/users", {
-    //             method: "POST",
-    //             body: JSON.stringify(formData),
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //         });
-    //         const result = response.json();
-    //         if (result.error) {
-    //             setError(result.error);
-    //             return;
-    //         }
-    //         window.location.reload();
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
-
     return (
         <section>
             <form onSubmit={onSubmit} className="">
@@ -79,8 +41,6 @@ const RegisterForm = () => {
                     name="first_name"
                     id="first_name"
                     placeholder="First Name"
-                    // value={formData.first_name}
-                    // onChange={onInputChange}
                     required
                 />
 
@@ -89,8 +49,6 @@ const RegisterForm = () => {
                     name="last_name"
                     id="last_name"
                     placeholder="Last Name"
-                    // value={formData.last_name}
-                    // onChange={onInputChange}
                     required
                 />
 
@@ -99,8 +57,6 @@ const RegisterForm = () => {
                     name="email"
                     id="email"
                     placeholder="Enter email"
-                    // value={formData.email}
-                    // onChange={onInputChange}
                     required
                 />
 
@@ -109,8 +65,6 @@ const RegisterForm = () => {
                     name="password"
                     id="password"
                     placeholder="Password"
-                    // value={formData.password}
-                    // onChange={onInputChange}
                     required
                 />
 
