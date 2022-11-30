@@ -1,11 +1,11 @@
-export default function ProfilePicture({ avatar, onClick, first_name, last_name }) {
+export default function ProfilePicture({ profile_picture_url, onClick, first_name, last_name }) {
     const default_picture = "https://dummyimage.com/100x100/fff/aaa";
 
     return (
         <img
             className="image"
             onClick={onClick}
-            src={avatar || default_picture}
+            src={profile_picture_url || default_picture}
             alt={`${first_name} ${last_name}`}
         />
     );

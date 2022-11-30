@@ -4,7 +4,13 @@ const compression = require("compression");
 const path = require("path");
 const { PORT = 3001 } = process.env;
 const cookieSession = require("cookie-session");
-const { createUser, login, getUserById, updatePicture } = require("./db");
+const {
+    createUser,
+    login,
+    getUserById,
+    updatePicture,
+    updateBio,
+} = require("./db");
 
 const s3upload = require("./s3");
 const { uploader } = require("./uploader");
@@ -98,6 +104,16 @@ app.post(
         }
     }
 );
+
+app.post("/api/users/me/bio", (req, res) => {
+    updateBio({ bio: req.body.bio, id: req.session.user_id })
+        .then((bio) => {
+            res.json(bio);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+});
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));

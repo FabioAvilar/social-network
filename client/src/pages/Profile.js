@@ -1,12 +1,24 @@
 import ProfilePicture from "../components/ProfilePicture";
+import BioEditor from "../components/BioEditor";
 
-export default function Profile({ userData }) {
+export default function Profile({
+    first_name,
+    last_name,
+    profile_picture_url,
+    bio,
+    onBioUpdate,
+}) {
     return (
-        <div className="navFoto">
-            <ProfilePicture isEditable avatar={userData.profile_picture_url} />
-            <div>
-                <h2 className="navTitle">{`Name: ${userData.first_name}`}</h2>
-            </div>
-        </div>
+        <section className="profile">
+            <ProfilePicture
+                first_name={first_name}
+                last_name={last_name}
+                profile_picture_url={profile_picture_url}
+            />
+            <h2>
+                {first_name} {last_name}
+            </h2>
+            <BioEditor bio={bio} onBioUpdate={onBioUpdate} />
+        </section>
     );
 }

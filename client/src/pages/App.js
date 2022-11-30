@@ -46,12 +46,12 @@ const App = () => {
             <header className="navHeader">
                 <nav className="nav">
                     <Header
-                        avatar={user.profile_picture_url}
+                        profile_picture_url={user.profile_picture_url}
                         setUser={setUser}
                         setModalVisible={setModalVisible}
                     ></Header>
                     <ProfilePicture
-                        avatar={user.profile_picture_url}
+                        profile_picture_url={user.profile_picture_url}
                         onClick={onPictureClick}
                     />
                 </nav>
