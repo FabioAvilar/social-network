@@ -34,44 +34,66 @@ const RegisterForm = () => {
     }
 
     return (
-        <section>
-            <form onSubmit={onSubmit} className="">
+        <section className="loginHome">
+            <h2 className="loginTitle">Register</h2>
+            <form onSubmit={onSubmit} className="loginHome">
+                <label htmlFor="first_name" className="label">
+                    Type Your First Name
+                </label>
                 <input
                     type="text"
                     name="first_name"
                     id="first_name"
                     placeholder="First Name"
+                    className="input"
                     required
                 />
 
+                <label htmlFor="last_name" className="label">
+                    Type Your Last Name
+                </label>
                 <input
                     type="text"
                     name="last_name"
                     id="last_name"
                     placeholder="Last Name"
+                    className="input"
                     required
                 />
 
+                <label htmlFor="email" className="label">
+                    Type Your Email
+                </label>
                 <input
                     type="email"
                     name="email"
                     id="email"
                     placeholder="Enter email"
+                    className="input"
                     required
                 />
 
+                <label htmlFor="email" className="label">
+                    Type Your Password
+                </label>
                 <input
                     type="password"
                     name="password"
                     id="password"
                     placeholder="Password"
+                    className="input"
                     required
                 />
-
-                <button type="Submit">Register</button>
-                {error && <p className="">{error}</p>}
+                <div className="loginButtons">
+                    <button type="Submit" className="button">
+                        Register
+                    </button>
+                    {error && <p className="">{error}</p>}
+                    <Link to="/" className="button">
+                        Click here to Login
+                    </Link>
+                </div>
             </form>
-            <Link to="/">Click here to Login</Link>
         </section>
     );
 };

@@ -80,11 +80,14 @@ app.get("/api/users/me", (req, res) => {
 
 app.post(
     "/api/users/me/picture",
-    uploader.single("profile_picture_url"),
+    uploader.single("image"),
     s3upload,
     async (req, res) => {
-        const url = `https://s3.amazonaws.com/${AWS_BUCKET}/${req.file.filename}`;
-        const image = await updatePicture({ url, ...req.body });
+        const profile_picture_url = `https://s3.amazonaws.com/${AWS_BUCKET}/${req.file.filename}`;
+        const image = await updatePicture({
+            profile_picture_url,
+            id: req.session.user_id,
+        });
 
         if (req.file) {
             res.json(image);

@@ -1,7 +1,7 @@
 const { S3 } = require("aws-sdk");
 const fs = require("fs");
 
-const { AWS_KEY, AWS_SECRET, AWS_BUCKET } = process.env;
+const { AWS_KEY, AWS_SECRET, AWS_BUCKET } = require("./secrets.json");
 
 const s3 = new S3({
     accessKeyId: AWS_KEY,

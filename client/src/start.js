@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
-import Welcome from "./pages/welcome";
-import App from "./pages/app";
+import Welcome from "./pages/Welcome";
+import App from "./pages/App";
 
 const root = createRoot(document.querySelector("main"));
 
