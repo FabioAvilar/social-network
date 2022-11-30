@@ -105,7 +105,7 @@ app.post(
     }
 );
 
-app.post("/api/users/me/bio", (req, res) => {
+app.put("/api/users/me/bio", (req, res) => {
     updateBio({ bio: req.body.bio, id: req.session.user_id })
         .then((bio) => {
             res.json(bio);

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Modal from "../components/modal";
 import ProfilePicture from "../components/ProfilePicture";
+import Profile from "./Profile";
 
 const App = () => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -29,16 +30,23 @@ const App = () => {
     function onClose() {
         console.log("test onclose");
         setModalVisible(false);
-        
     }
 
     function onUpload(newPictureUrl) {
         console.log("newPictureUrl", newPictureUrl);
         setUser({
             ...user,
-            profile_picture_url: newPictureUrl
+            profile_picture_url: newPictureUrl,
         });
         setModalVisible(false);
+    }
+
+    function onBioUpdate(newBio) {
+        console.log("App:onBioUpdate", onBioUpdate);
+        setUser({
+            ...user,
+            bio: newBio,
+        });
     }
 
     return (
@@ -57,7 +65,14 @@ const App = () => {
                 </nav>
             </header>
 
-            {modalVisible && <Modal onClose={onClose} onUpload={onUpload}/>}
+            <Profile
+                first_name={user.first_name}
+                last_name={user.last_name}
+                profile_picture_url={user.profile_picture_url}
+                bio={user.bio}
+                onBioUpdate={onBioUpdate}
+            />
+            {modalVisible && <Modal onClose={onClose} onUpload={onUpload} />}
         </BrowserRouter>
     );
 };
