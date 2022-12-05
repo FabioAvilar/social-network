@@ -73,6 +73,16 @@ body {
     scale: 1.1;
 }
 
+.homeSubTittle {
+    color: #e36414;
+}
+
+.homeSubTittle:hover {
+    color: #560bad;
+    transition: 0.8s;
+    scale: 1.1;
+}
+
 .icon {
     color: #3a0ca3;
 }
@@ -120,7 +130,6 @@ body {
 .navHeader {
     padding: 0.5rem;
     width: 100%;
-    /* position: fixed; */
     top: 0;
     left: 0;
     background-color: #003566;
@@ -314,4 +323,70 @@ body {
     height: 20rem;
     padding: 2rem;
     font-size: 1rem;
+}
+
+/* FIND USERS */
+.find-users {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.find-img {
+    width: 190px;
+    height: 150px;
+    border-radius: 20%;
+}
+
+.find-paragraphy {
+    list-style: none;
+    text-decoration: none;
+    color: #560bad;
+    font-weight: 800;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.find-paragraphy:hover {
+    color: #e36414;
+    scale: 1.1;
+    transition: 1s;
+}
+
+.find-para {
+    list-style: none;
+    text-decoration: none;
+}
+
+/* OTHER USER */
+.user-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    margin: 1rem;
+    gap: 1rem;
+}
+
+.user-content {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.user-img {
+    margin: 0.2rem;
+    width: 200px;
+    height: 300px;
+}
+
+.user-para {
+    font-size: 2rem;
 }

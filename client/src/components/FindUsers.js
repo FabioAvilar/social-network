@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function FindUsers() {
     const [users, setUsers] = useState([]);
@@ -24,15 +25,25 @@ export default function FindUsers() {
         // // console.log("data: ", data);
         // setUsers(data);
     }
-
+    console.log(users);
     return (
         <div className="find-users">
-            <h2>Find Users</h2>
-            <input type="text" placeholder="search" onChange={handleChange} />
+            <h2 className="homeTitle">Find Users</h2>
+            <input
+                type="text"
+                className="input"
+                placeholder="search"
+                onChange={handleChange}
+            />
             {users.map((user) => (
-                <div key={user.profile_picture_url}>
-                    {user.first_name}
-                    <img className="image" src={user.profile_picture_url} />
+                <div key={user.id} className="find-block">
+                    <Link className="find-para" to={`/user/${user.id}`}>
+                        <img
+                            className="image find-img"
+                            src={user.profile_picture_url}
+                        />
+                        <p className="find-paragraphy">{user.first_name}</p>
+                    </Link>
                 </div>
             ))}
         </div>

@@ -139,6 +139,19 @@ app.get("/api/users", async (req, res) => {
     }
 });
 
+app.get("/api/users/:id", async (req, res) => {
+    console.log("req.params", req.params);
+    const {id} = req.params;
+    const {user_id} = req.session;
+    const otherUser = await getUserById(id);
+    if (id == user_id || !otherUser) {
+        res.json(null);
+        return;
+    } else {
+        res.json(otherUser);
+    }
+});
+
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
