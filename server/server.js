@@ -10,6 +10,8 @@ const {
     getUserById,
     updatePicture,
     updateBio,
+    getRecentUsers,
+    findUser,
 } = require("./db");
 
 const s3upload = require("./s3");
@@ -79,8 +81,8 @@ app.get("/api/users/me", (req, res) => {
             res.json(null);
             return;
         }
-        const { first_name, last_name, email, profile_picture_url } = user;
-        res.json({ first_name, last_name, email, profile_picture_url });
+        const { first_name, last_name, email, profile_picture_url, bio } = user;
+        res.json({ first_name, last_name, email, profile_picture_url, bio });
     });
 });
 
@@ -105,14 +107,36 @@ app.post(
     }
 );
 
-app.put("/api/users/me/bio", (req, res) => {
-    updateBio({ bio: req.body.bio, id: req.session.user_id })
-        .then((bio) => {
-            res.json(bio);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+app.post("/api/users/me/bio", async (req, res) => {
+    console.log("req.body.bio", req.body.bio);
+    console.log(", req.session.user_id", req.session.user_id);
+    try {
+        const newBio = await updateBio(req.body.bio, req.session.user_id);
+        console.log("tests server Bio :", newBio);
+        res.json(newBio);
+    } catch (error) {
+        console.log("error updateBio 😱 : ", error);
+    }
+});
+
+app.get("/api/users", async (req, res) => {
+    console.log("********* /api/users ***********");
+    console.log("req.query: ", req.query);
+    const { q } = req.query;
+    console.log("query q: ", q);
+    try {
+        if (!q) {
+            const recentUsers = await getRecentUsers();
+            console.log("para ver os ultimos usuarios: ", recentUsers);
+            res.json(recentUsers);
+            return;
+        }
+        const users = await findUser(q);
+        res.json(users);
+    } catch (error) {
+        console.log("ERROR api/users", error);
+        res.json({ success: false });
+    }
 });
 
 app.get("*", function (req, res) {

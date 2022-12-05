@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Header() {
     return (
         <ul className="navList">
@@ -8,7 +10,7 @@ export default function Header() {
                     alt="logo"
                 />
             </li>
-            <li>Home</li>
+            <li><Link to="/users" >Find People</Link></li>
             <li>TESTE1</li>
             <li>TESTE2</li>
             <li>TESTE3</li>

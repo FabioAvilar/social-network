@@ -77,7 +77,7 @@ async function updatePicture({profile_picture_url, id}) {
     return result.rows[0];
 }
 
-async function updateBio({bio, id}) {
+async function updateBio(bio, id) {
     const result = await db.query(
         `
         UPDATE users 
@@ -90,10 +90,31 @@ async function updateBio({bio, id}) {
     return result.rows[0];
 }
 
+async function getRecentUsers() {
+    const result = await db.query(`
+        SELECT * FROM users
+        ORDER BY id
+        DESC LIMIT 3
+    `);
+    return result.rows;
+}
+
+async function findUser(val) {
+    const result = await db.query(`
+        SELECT id, first_name, last_name, profile_picture_url 
+        FROM users
+        WHERE first_name 
+        ILIKE $1
+    `, [val + "%"]);
+    return result.rows;
+}
+
 module.exports = {
     createUser,
     login,
     getUserById,
     updatePicture,
     updateBio,
+    getRecentUsers,
+    findUser,
 };

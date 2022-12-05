@@ -4,17 +4,17 @@ export default function BioEditor({ bio, onBioUpdate }) {
     const [isEditing, setEding] = useState(false);
 
     function onEditButtonClick() {
-        console.log("BioEditor: onEditButtonClick");
+        // console.log("BioEditor: onEditButtonClick");
         setEding(!isEditing);
     }
 
     async function onSubmit(event) {
         const newBio = event.target.bio.value;
-        console.log("BioEditor:onSubmit", newBio);
+        // console.log("BioEditor:onSubmit", newBio);
         event.preventDefault();
 
         const response = await fetch("/api/users/me/bio", {
-            method: "PUT",
+            method: "post",
             body: JSON.stringify({ bio: newBio }),
             headers: {
                 "Content-Type": "application/json",
@@ -33,8 +33,8 @@ export default function BioEditor({ bio, onBioUpdate }) {
     function renderForm() {
         return (
             <form onSubmit={onSubmit}>
-                <textarea name="bio" defaultValue={bio} />
-                <button>Save Bio</button>
+                <textarea name="bio" defaultValue={bio} className="bioEditorText" />
+                <button className="button">Save Bio</button>
             </form>
         );
     }
@@ -42,8 +42,8 @@ export default function BioEditor({ bio, onBioUpdate }) {
     const buttonLabel = isEditing ? "Cancel" : "Edit bio";
     return (
         <div className="bio-editor">
-            {isEditing ? renderForm() : <p>{bio}</p>}
-            <button onClick={onEditButtonClick}>{buttonLabel}</button>
+            {isEditing ? renderForm() : <p></p>}
+            <button className="button" onClick={onEditButtonClick}>{buttonLabel}</button>
         </div>
     );
 }

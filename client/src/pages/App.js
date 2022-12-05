@@ -1,25 +1,26 @@
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Modal from "../components/modal";
 import ProfilePicture from "../components/ProfilePicture";
 import Profile from "./Profile";
+import FindUsers from "../components/FindUsers";
 
 const App = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [user, setUser] = useState({});
 
     useEffect(() => {
-        fetch("/api/users/me")
-            .then((response) => response.json())
-            .then((user) => {
-                if (!user) {
-                    history.replaceState({}, "", "/login");
-                    return;
-                }
-                console.log(user);
-                setUser(user);
-            });
+        async function getUser() {
+            // console.log("App:getUser");
+            // this is going to be /api/users/me
+            const response = await fetch("/api/users/me");
+            console.log("teste do response", response);
+            const parsedJSON = await response.json();
+            setUser(parsedJSON);
+            console.log("teste do parsedJSON", parsedJSON);
+        }
+        getUser();
     }, []);
 
     function onPictureClick() {
@@ -41,11 +42,11 @@ const App = () => {
         setModalVisible(false);
     }
 
-    function onBioUpdate(newBio) {
+    function onBioUpdate(bio) {
         console.log("App:onBioUpdate", onBioUpdate);
         setUser({
             ...user,
-            bio: newBio,
+            bio: bio,
         });
     }
 
@@ -63,16 +64,25 @@ const App = () => {
                         onClick={onPictureClick}
                     />
                 </nav>
+                {modalVisible && (
+                    <Modal onClose={onClose} onUpload={onUpload} />
+                )}
             </header>
-
-            <Profile
-                first_name={user.first_name}
-                last_name={user.last_name}
-                profile_picture_url={user.profile_picture_url}
-                bio={user.bio}
-                onBioUpdate={onBioUpdate}
-            />
-            {modalVisible && <Modal onClose={onClose} onUpload={onUpload} />}
+            <Routes>
+                <Route
+                    path="/"
+                    element={
+                        <Profile
+                            first_name={user.first_name}
+                            last_name={user.last_name}
+                            profile_picture_url={user.profile_picture_url}
+                            bio={user.bio}
+                            onBioUpdate={onBioUpdate}
+                        />
+                    }
+                />
+                <Route path="/users" element={<FindUsers />} />
+            </Routes>
         </BrowserRouter>
     );
 };
