@@ -185,12 +185,11 @@ app.get("/api/friendships/:user_id", async (req, res) => {
 });
 
 app.post("/api/friendships/:user_id", async (req, res) => {
-    
     const loggedUserId = req.session.user_id;
     const otherUserId = req.params.user_id;
     console.log("loggedUserId eu testando: ", loggedUserId);
     console.log("otherUserId eu testando: ", otherUserId);
-    
+
     const friendship = await getFriendship({
         first_id: loggedUserId,
         second_id: otherUserId,
@@ -229,6 +228,11 @@ app.post("/api/friendships/:user_id", async (req, res) => {
     }
 
     res.json({ status });
+});
+
+app.post("/api/logout", (req, res) => {
+    req.session.user_id = null;
+    res.json({});
 });
 
 app.get("*", function (req, res) {

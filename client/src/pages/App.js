@@ -62,6 +62,8 @@ const App = () => {
                     ></Header>
                     <ProfilePicture
                         profile_picture_url={user.profile_picture_url}
+                        first_name={user.first_name}
+                        last_name={user.last_name}
                         onClick={onPictureClick}
                     />
                 </nav>

@@ -1,5 +1,5 @@
 // import ProfilePicture from "../components/ProfilePicture";
-import ProfilePhoto from "../components/ProfilePhoto";
+import ProfilePicture from "../components/ProfilePicture";
 import BioEditor from "../components/BioEditor";
 
 export default function Profile({
@@ -12,11 +12,11 @@ export default function Profile({
     return (
         <section className="profile">
             <div className="profileContent">
-                <ProfilePhoto
+                <ProfilePicture
                     first_name={first_name}
                     last_name={last_name}
                     profile_picture_url={profile_picture_url}
-                    className="imageProfile"
+                    className="profileImage"
                 />
                 <div className="profileSub">
                     <h2 className="profileTitle">

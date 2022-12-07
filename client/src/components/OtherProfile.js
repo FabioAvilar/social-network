@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import FriendshipButton from "../components/FriendshipButton";
-// import ProfilePhoto from "../components/ProfilePhoto";
+import ProfilePicture from "../components/ProfilePicture";
 
 export default function OtherProfile() {
     const [user, setUser] = useState({});
@@ -26,17 +26,17 @@ export default function OtherProfile() {
 
     return (
         <section className="user-container">
-            <img
+            {/* <img
                 src={user.profile_picture_url}
                 alt={`${user.first_name} ${user.last_name}`}
                 className="user-img"
-            />
-            {/* <ProfilePhoto
-                // first_name={first_name}
-                // last_name={last_name}
-                profile_picture_url={profile_picture_url}
-                className="imageProfile"
             /> */}
+            <ProfilePicture
+                first_name={user.first_name}
+                last_name={user.last_name}
+                profile_picture_url={user.profile_picture_url}
+                className="user-img"
+            />
             <div className="user-content">
                 <h2 className="homeTitle">
                     {user.first_name} {user.last_name}
