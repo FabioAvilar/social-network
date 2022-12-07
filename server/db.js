@@ -64,7 +64,7 @@ async function getUserById(id) {
 }
 
 // for update a foto
-async function updatePicture({profile_picture_url, id}) {
+async function updatePicture({ profile_picture_url, id }) {
     const result = await db.query(
         `
         UPDATE users 
@@ -100,13 +100,74 @@ async function getRecentUsers() {
 }
 
 async function findUser(val) {
-    const result = await db.query(`
+    const result = await db.query(
+        `
         SELECT id, first_name, last_name, profile_picture_url 
         FROM users
         WHERE first_name 
         ILIKE $1
-    `, [val + "%"]);
+    `,
+        [val + "%"]
+    );
     return result.rows;
+}
+
+async function getFriendship({ first_id, second_id }) {
+    // SELECT sender_id, recipient_id, accepted FROM friendships
+    // WHERE sender_id = $1 AND recipient_id = $2
+    // OR    sender_id = $2 AND recipient_id = $1
+    const result = await db.query(
+        `
+        SELECT * FROM  friendships
+        WHERE sender_id = $1 AND recipient_id = $2
+        OR sender_id = $2 AND recipient_id = $1
+    `,
+        [first_id, second_id]
+    );
+    return result.rows[0];
+}
+
+async function requestFriendship({ sender_id, recipient_id }) {
+    // INSERT INTO friendships (...)
+    // VALUES (...)
+    // RETURNING *`
+    const result = await db.query(
+        `
+        INSERT INTO friendships
+        (sender_id, recipient_id) 
+        VALUES ($1, $2)
+    `,
+        [sender_id, recipient_id]
+    );
+    return result.rows[0];
+}
+
+async function acceptFriendship({ sender_id, recipient_id }) {
+    // UPDATE friendships ...
+    // WHERE ...
+    // RETURNING *
+    const result = await db.query(
+        `
+        UPDATE friendships
+        SET accepted = true WHERE sender_id = $1 AND recipient_id = $2
+    `,
+        [sender_id, recipient_id]
+    );
+    return result.rows[0];
+}
+
+async function deleteFriendship({ first_id, second_id }) {
+    // DELETE FROM friendships
+    // WHERE ...
+    // OR    ...
+    const result = await db.query(
+        `    
+        DELETE FROM friendships
+        WHERE sender_id = $1 AND recipient_id = $2 
+        OR sender_id = $2 AND recipient_id = $1`,
+        [first_id, second_id]
+    );
+    return result.rows[0];
 }
 
 module.exports = {
@@ -117,4 +178,8 @@ module.exports = {
     updateBio,
     getRecentUsers,
     findUser,
+    getFriendship,
+    requestFriendship,
+    acceptFriendship,
+    deleteFriendship,
 };

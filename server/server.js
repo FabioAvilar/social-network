@@ -12,6 +12,10 @@ const {
     updateBio,
     getRecentUsers,
     findUser,
+    getFriendship,
+    requestFriendship,
+    acceptFriendship,
+    deleteFriendship,
 } = require("./db");
 
 const s3upload = require("./s3");
@@ -141,8 +145,8 @@ app.get("/api/users", async (req, res) => {
 
 app.get("/api/users/:id", async (req, res) => {
     console.log("req.params", req.params);
-    const {id} = req.params;
-    const {user_id} = req.session;
+    const { id } = req.params;
+    const { user_id } = req.session;
     const otherUser = await getUserById(id);
     if (id == user_id || !otherUser) {
         res.json(null);
@@ -150,6 +154,81 @@ app.get("/api/users/:id", async (req, res) => {
     } else {
         res.json(otherUser);
     }
+});
+
+function getFriendshipStatus(friendship, loggedUserId) {
+    if (!friendship) {
+        return "NO_FRIENDSHIP";
+    }
+    if (!friendship.accepted && friendship.sender_id === loggedUserId) {
+        return "OUTGOING_FRIENDSHIP";
+    }
+    if (!friendship.accepted && friendship.recipient_id === loggedUserId) {
+        return "INCOMING_FRIENDSHIP";
+    }
+    if (friendship.accepted) {
+        return "ACCEPTED_FRIENDSHIP";
+    }
+}
+
+app.get("/api/friendships/:user_id", async (req, res) => {
+    const loggedUserId = req.session.user_id;
+    const otherUserId = req.params.user_id;
+
+    const friendship = await getFriendship({
+        first_id: loggedUserId,
+        second_id: otherUserId,
+    });
+
+    const status = getFriendshipStatus(friendship, loggedUserId);
+    res.json({ ...friendship, status });
+});
+
+app.post("/api/friendships/:user_id", async (req, res) => {
+    
+    const loggedUserId = req.session.user_id;
+    const otherUserId = req.params.user_id;
+    console.log("loggedUserId eu testando: ", loggedUserId);
+    console.log("otherUserId eu testando: ", otherUserId);
+    
+    const friendship = await getFriendship({
+        first_id: loggedUserId,
+        second_id: otherUserId,
+    });
+
+    console.log("teste do get dos friends response: ", friendship);
+
+    const currentStatus = getFriendshipStatus(friendship, loggedUserId);
+    let status;
+
+    if (currentStatus === "NO_FRIENDSHIP") {
+        await requestFriendship({
+            sender_id: loggedUserId,
+            recipient_id: otherUserId,
+        });
+        status = "OUTGOING_FRIENDSHIP";
+    }
+
+    if (currentStatus === "INCOMING_FRIENDSHIP") {
+        await acceptFriendship({
+            sender_id: otherUserId,
+            recipient_id: loggedUserId,
+        });
+        status = "ACCEPTED_FRIENDSHIP";
+    }
+
+    if (
+        currentStatus === "ACCEPTED_FRIENDSHIP" ||
+        currentStatus === "OUTGOING_FRIENDSHIP"
+    ) {
+        await deleteFriendship({
+            first_id: loggedUserId,
+            second_id: otherUserId,
+        });
+        status = "NO_FRIENDSHIP";
+    }
+
+    res.json({ status });
 });
 
 app.get("*", function (req, res) {
