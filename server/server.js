@@ -16,6 +16,7 @@ const {
     requestFriendship,
     acceptFriendship,
     deleteFriendship,
+    getFriends,
 } = require("./db");
 
 const s3upload = require("./s3");
@@ -230,9 +231,18 @@ app.post("/api/friendships/:user_id", async (req, res) => {
     res.json({ status });
 });
 
-app.post("/api/logout", (req, res) => {
-    req.session.user_id = null;
-    res.json({});
+app.get("/api/friendships", async (req, res) => {
+    const friendships = await getFriends(req.session.user_id);
+    res.json(
+        friendships.map((friendship) => ({
+            ...friendship,
+            status: getFriendshipStatus(friendship, req.session.user_id),
+        }))
+    );
+});
+
+app.get("/logout", (req, res) => {
+    (req.session = null), res.redirect("/");
 });
 
 app.get("*", function (req, res) {

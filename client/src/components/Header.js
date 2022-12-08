@@ -1,11 +1,6 @@
 import { Link } from "react-router-dom";
 
 export default function Header() {
-    const logOut = () => {
-        fetch("/api/logout", {
-            method: "POST",
-        }).then(location.reload());
-    };
 
     return (
         <ul className="navList">
@@ -29,12 +24,10 @@ export default function Header() {
                 <Link to="/users">Find People</Link>
             </li>
             <li>
-                <Link to="/users">Find People</Link>
+                <Link to="/friendships">Friends</Link>
             </li>
             <li>
-                <Link to="/" onClick={logOut}>
-                    Log Out
-                </Link>
+                <a href="/logout">Log Out</a>
             </li>
         </ul>
     );

@@ -6,6 +6,7 @@ import ProfilePicture from "../components/ProfilePicture";
 import Profile from "./Profile";
 import FindUsers from "../components/FindUsers";
 import OtherProfile from "../components/OtherProfile";
+import Friends from "./Friends";
 
 const App = () => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -86,6 +87,7 @@ const App = () => {
                 />
                 <Route path="/users" element={<FindUsers />} />
                 <Route path="/user/:id" element={<OtherProfile />} />
+                <Route path="/friendships" element={<Friends />} />
             </Routes>
         </BrowserRouter>
     );

@@ -361,6 +361,15 @@ body {
 .find-para {
     list-style: none;
     text-decoration: none;
+
+    gap: 1rem;
+    list-style: none;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
 }
 
 /* OTHER USER */
@@ -391,3 +400,23 @@ body {
     font-size: 2rem;
 }
 
+/* FRIENDS */
+.user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+}
+
+.userContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    list-style: none;
+    margin: 2rem;
+}
+
+.friendTitle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
