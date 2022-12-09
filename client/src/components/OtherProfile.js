@@ -6,14 +6,14 @@ import ProfilePicture from "../components/ProfilePicture";
 export default function OtherProfile() {
     const [user, setUser] = useState({});
     const { id } = useParams();
-    console.log("tests from id 😱😱", id);
+    // console.log("tests from id 😱😱", id);
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log("useEffect em açao");
+        // console.log("useEffect em açao");
         async function getUser() {
             const response = await fetch(`/api/users/${id}`);
-            console.log("response teste", response);
+            // console.log("response teste", response);
             const data = await response.json();
             setUser(data);
 

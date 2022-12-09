@@ -7,7 +7,7 @@ export default function FindUsers() {
 
     useEffect(() => {
         // console.log("useEffect running");
-        console.log("query: ", query);
+        // console.log("query: ", query);
         (async () => {
             const response = await fetch(`/api/users?q=${query}`);
             const data = await response.json();

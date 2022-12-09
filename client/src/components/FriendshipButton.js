@@ -34,7 +34,7 @@ export default function FriendshipButton({ user_id }) {
     async function onClick() {
         // make a POST to /api/friendships/:user_id
         // update the status based on the response
-        console.log("friendshipButton onClick: 🎸🎸🎸", status);
+        // console.log("friendshipButton onClick: 🎸🎸🎸", status);
         const reesponse = await fetch(`/api/friendships/${user_id}`, {
             method: "POST",
         });

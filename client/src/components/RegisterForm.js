@@ -6,7 +6,7 @@ const RegisterForm = () => {
 
     async function onSubmit(event) {
         event.preventDefault();
-        console.log("its submits");
+        // console.log("its submits");
 
         const response = await fetch("/api/users", {
             method: "POST",

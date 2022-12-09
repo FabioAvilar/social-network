@@ -17,8 +17,8 @@ const {
     acceptFriendship,
     deleteFriendship,
     getFriends,
-    // getChatMessages,
-    // createChatMessage,
+    getChatMessages,
+    createChatMessage,
 } = require("./db");
 
 const s3upload = require("./s3");
@@ -276,18 +276,38 @@ app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
-io.on("connection", (socket) => {
-    console.log("[social:socket] incoming socked connection", socket.id);
-    console.log("session", socket.request.session);
+io.on("connection", async (socket) => {
+    // console.log("[social:socket] incoming socked connection", socket.id);
+    // console.log("session", socket.request.session);
     const { user_id } = socket.request.session;
     if (!user_id) {
         return socket.disconnect(true);
     }
     // console.log("user_id in socket", user_id);
 
+    // send back the latest 10 messages to every new connected user
+    const messages = await getChatMessages({ limit: 10 });
+    socket.emit("recentMessages", messages.reverse());
 
-    socket.emit("Brasil", "Hexa BraZil!!⚽⚽⚽⚽⚽");
+    socket.on("sendMessage", async ({ text }) => {
+        // save to db
+        const message = await createChatMessage({
+            sender_id: user_id,
+            text,
+        });
 
+        // get user info
+        const user = await getUserById(user_id);
+        const { first_name, last_name, profile_picture_url } = user;
+
+        //forward it to everbody - user io.emit!
+        io.emit("newMessage", {
+            first_name,
+            last_name,
+            profile_picture_url,
+            ...message,
+        });
+    });
 });
 
 server.listen(PORT, function () {

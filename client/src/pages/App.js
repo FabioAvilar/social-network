@@ -18,10 +18,10 @@ const App = () => {
             // console.log("App:getUser");
             // this is going to be /api/users/me
             const response = await fetch("/api/users/me");
-            console.log("teste do response", response);
+            // console.log("teste do response", response);
             const parsedJSON = await response.json();
             setUser(parsedJSON);
-            console.log("teste do parsedJSON", parsedJSON);
+            // console.log("teste do parsedJSON", parsedJSON);
         }
         getUser();
     }, []);
