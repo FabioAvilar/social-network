@@ -17,6 +17,8 @@ const {
     acceptFriendship,
     deleteFriendship,
     getFriends,
+    // getChatMessages,
+    // createChatMessage,
 } = require("./db");
 
 const s3upload = require("./s3");
@@ -29,13 +31,38 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 const { SESSION_SECRET } = require("./secrets.json");
 
-app.use(
-    cookieSession({
-        secret: SESSION_SECRET,
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-        sameSite: true,
-    })
-);
+// app.use(
+//     cookieSession({
+//         secret: SESSION_SECRET,
+//         maxAge: 1000 * 60 * 60 * 24 * 14,
+//         sameSite: true,
+//     })
+// );
+
+// SOCKET IO
+
+const cookieSessionMiddleware = cookieSession({
+    secret: SESSION_SECRET,
+    maxAge: 1000 * 60 * 60 * 24 * 14,
+});
+
+const server = require("http").Server(app);
+const socketConnect = require("socket.io");
+const io = socketConnect(server, {
+    allowRequest: (request, callback) =>
+        callback(
+            null,
+            request.headers.referer.startsWith(`http://localhost:3000`)
+        ),
+});
+app.use(cookieSessionMiddleware);
+
+io.use((socket, next) => {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
+// end socket io
+
+app.use(cookieSessionMiddleware);
 
 app.get("/api/id.json", (req, res) => {
     if (!req.session.user_id) {
@@ -249,6 +276,20 @@ app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
-app.listen(PORT, function () {
+io.on("connection", (socket) => {
+    console.log("[social:socket] incoming socked connection", socket.id);
+    console.log("session", socket.request.session);
+    const { user_id } = socket.request.session;
+    if (!user_id) {
+        return socket.disconnect(true);
+    }
+    // console.log("user_id in socket", user_id);
+
+
+    socket.emit("Brasil", "Hexa BraZil!!⚽⚽⚽⚽⚽");
+
+});
+
+server.listen(PORT, function () {
     console.log(`Express server listening on port ${PORT}`);
 });

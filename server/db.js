@@ -94,7 +94,7 @@ async function getRecentUsers() {
     const result = await db.query(`
         SELECT * FROM users
         ORDER BY id
-        DESC LIMIT 3
+        DESC LIMIT 6
     `);
     return result.rows;
 }
@@ -185,6 +185,32 @@ async function getFriends(user_id) {
     return results.rows;
 }
 
+async function getChatMessages({ limit }) {
+    const results = await db.query(
+        `SELECT chat_messages.*, users.first_name, users.last_name, users.profile_picture_url
+        FROM chat_messages
+        JOIN users
+        ON users.id = chat_messages.sender_id
+        ORDER BY id DESC
+        LIMIT $1
+        `,
+        [limit]
+    );
+    return results.rows;
+}
+
+async function createChatMessage({ sender_id, text }) {
+    const results = await db.query(
+        `
+        INSERT INTO chat_messages (sender_id, text)
+        VALUES ($1, $2)
+        RETURNING *
+    `,
+        [sender_id, text]
+    );
+    return results.rows[0];
+}
+
 module.exports = {
     createUser,
     login,
@@ -198,4 +224,6 @@ module.exports = {
     acceptFriendship,
     deleteFriendship,
     getFriends,
+    getChatMessages,
+    createChatMessage,
 };

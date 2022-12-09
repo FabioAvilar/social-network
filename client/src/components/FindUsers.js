@@ -27,7 +27,7 @@ export default function FindUsers() {
     }
     console.log(users);
     return (
-        <div className="find-users">
+        <section className="find-users">
             <h2 className="homeTitle">Find Users</h2>
             <input
                 type="text"
@@ -35,17 +35,19 @@ export default function FindUsers() {
                 placeholder="search"
                 onChange={handleChange}
             />
-            {users.map((user) => (
-                <div key={user.id} className="find-block">
-                    <Link className="find-para" to={`/user/${user.id}`}>
-                        <img
-                            className="image find-img"
-                            src={user.profile_picture_url}
-                        />
-                        <p className="find-paragraphy">{user.first_name}</p>
-                    </Link>
-                </div>
-            ))}
-        </div>
+            <div className="find-grid">
+                {users.map((user) => (
+                    <div key={user.id} className="find-block">
+                        <Link className="find-para" to={`/user/${user.id}`}>
+                            <img
+                                className="image find-img"
+                                src={user.profile_picture_url}
+                            />
+                            <p className="find-paragraphy">{user.first_name}</p>
+                        </Link>
+                    </div>
+                ))}
+            </div>
+        </section>
     );
 }
