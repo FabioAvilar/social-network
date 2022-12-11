@@ -11,6 +11,21 @@ body {
     font-family: "Anybody", cursive;
 }
 
+html::-webkit-scrollbar {
+    width: 20px;
+    background-color: #f6bd60;
+}
+
+html::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #f4f5f7;
+}
+
+html {
+    scrollbar-width: 20px;
+    scrollbar-color: rgb(0, 255, 136) #ccc;
+}
+
 /* STANDARD CSS */
 .label {
     font-size: 1.5rem;
@@ -51,6 +66,19 @@ body {
 }
 
 .image:hover {
+    border: 1px solid #fcf6bd;
+    transition: 0.8s;
+    scale: 1.1;
+}
+
+.navImage {
+    width: 100px;
+    height: 100px;
+    border-radius: 0.3rem;
+    cursor: pointer;
+}
+
+.navImage:hover {
     border: 1px solid #fcf6bd;
     transition: 0.8s;
     scale: 1.1;
@@ -130,6 +158,21 @@ body {
 }
 
 /* HEADER */
+
+.nav__link:hover {
+    position: relative;
+}
+
+.nav__link:hover::after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 0.15rem;
+    left: 0;
+    top: 2rem;
+    background-color: #e9c46a;
+}
+
 .navHeader {
     padding: 0.5rem;
     width: 100%;
@@ -144,6 +187,11 @@ body {
     justify-content: space-between;
     align-items: center;
     font-weight: 600;
+}
+
+.nav__list {
+    display: flex;
+    padding-top: 0;
 }
 
 .navList {
@@ -433,7 +481,79 @@ body {
     justify-content: center;
 }
 
+/* CHAT */
+.chatMessages {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem;
+}
+
+.chatUl {
+    list-style: none;
+    display: flex;
+    /* background: orange; */
+    flex-direction: column-reverse;
+    align-items: center;
+    padding: 1rem;
+    margin: 1rem;
+    gap: 1rem;
+}
+
+.chatLi {
+    background: #fff;
+    border: 2px #333 solid;
+    padding: 0.5rem;
+    width: 50rem;
+    height: 20rem;
+    overflow-y: auto;
+}
+
+#elemento::-webkit-scrollbar {
+    width: 10px;
+    background-color: #f6bd60;
+}
+
+#elemento::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #003566;
+}
+
+#elemento {
+    scrollbar-width: 20px;
+    scrollbar-color: rgb(0, 255, 136) #ccc;
+}
+
+.chatTittle {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.chatForm {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.chatInput {
+    width: 40rem;
+    height: 20rem;
+    overflow-y: auto;
+    font-size: 1rem;
+    color: #6a040f;
+    overflow-y: auto;
+    cursor: pointer;
+    padding: 1rem;
+}
+
 @media screen and (max-width: 320px) {
+    /* .navImage {
+        display: none;
+    } */
+
     .homeWelcome {
         display: flex;
         align-items: center;
@@ -442,14 +562,15 @@ body {
     }
 
     .homeTitle {
-        font-size: 2rem;
+        font-size: 1rem;
+        margin-top: 1rem;
     }
 
     .loginHome {
         display: flex;
         justify-content: center;
         margin: 6rem;
-        padding: 2rem;
+        padding: 1rem;
         gap: 1rem;
         align-items: center;
         flex-direction: column;
@@ -473,11 +594,296 @@ body {
     .button {
         font-size: 0.7rem;
     }
+
+    .image {
+        width: 50px;
+        height: 50px;
+    }
+
+    li {
+        font-size: 0.7rem;
+    }
+
+    .icon {
+        display: none;
+    }
+
+    .nav {
+        height: 4rem;
+    }
+
+    .profileImage {
+        border-radius: 50%;
+        width: 12rem;
+        height: 12rem;
+    }
+
+    .navList {
+        gap: 0.4rem;
+    }
+
+    .modal-content {
+        width: 16rem;
+        height: 30rem;
+    }
+
+    .loginTitle {
+        margin-top: 1rem;
+    }
+
+    .bio-editor form {
+        display: flex;
+        flex-direction: column;
+        width: 15rem;
+        align-items: center;
+        align-content: center;
+    }
+
+    .bioEditorText {
+        width: 17rem;
+        height: 15rem;
+        padding: 0.5rem;
+        font-size: 0.7rem;
+    }
+
+    .find-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        margin: 0.5rem;
+        gap: 0.5rem;
+        justify-items: center;
+        align-items: center;
+        align-content: center;
+    }
+
+    .find-img {
+        width: 100px;
+        height: 100px;
+        border-radius: 20%;
+    }
+
+    .find-paragraphy {
+        font-size: 1rem;
+    }
+
+    .chatInput {
+        width: 17rem;
+        height: 15rem;
+        overflow-y: auto;
+        font-size: 1rem;
+        color: #6a040f;
+        overflow-y: auto;
+        cursor: pointer;
+        padding: 1rem;
+    }
+
+    .chatLi {
+        width: 15rem;
+    }
+
+    .input {
+        border: none;
+        border-radius: 0.3rem;
+        font-size: 0.6rem;
+        padding: 0.5rem;
+    }
+}
+
+@media screen and (max-width: 321px) {
+    /* .navImage {
+        display: none;
+    } */
+
+    .icon {
+        display: none;
+    }
+
+    .homeTitle {
+        font-size: 2rem;
+    }
+
+    .input {
+        font-size: 0.7rem;
+    }
+
+    .bio-editor form {
+        display: flex;
+        flex-direction: column;
+        width: 18rem;
+        align-content: center;
+        align-items: center;
+    }
+
+    .bioEditorText {
+        width: 18rem;
+        padding: 1rem;
+    }
+
+    .image {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* .linkFabio {
+        display: none;
+    } */
+
+    .nav {
+        font-weight: 200;
+    }
+
+    .navList {
+        gap: 0.5rem;
+    }
+
+    .find-grid {
+        gap: 1rem;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .find-img {
+        width: 100px;
+        height: 100px;
+        border-radius: 20%;
+    }
+
+    .find-paragraphy {
+        font-size: 1.2rem;
+    }
+
+    .user-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 1rem;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .user-img {
+        margin: 0.2rem;
+        width: 300px;
+        height: 300px;
+        border-radius: 2rem;
+    }
+
+    .nav {
+        height: 5rem;
+    }
+
+    .profileImage {
+        border-radius: 50%;
+        width: 12rem;
+        height: 12rem;
+    }
+
+    .chatInput {
+        width: 17rem;
+    }
+
+    .chatLi {
+        width: 17rem;
+    }
+
+    .modal-content {
+        display: flex;
+        background-color: #333;
+        height: 30rem;
+        width: 17rem;
+        margin: auto;
+        flex-direction: column;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+    }
 }
 @media screen and (max-width: 576px) {
+    /* .navImage {
+        display: none;
+    } */
+
+    .icon {
+        display: none;
+    }
+
+    .loginHome {
+        display: flex;
+        justify-content: center;
+        /* height: 75vh; */
+        margin: 1rem;
+        padding: 1rem;
+        gap: 0.5rem;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .loginTitle {
+        color: #e36414;
+        font-size: 2rem;
+        margin-top: 4rem;
+        margin-bottom: 2rem;
+    }
+
+    .modal-content {
+        display: flex;
+        background-color: #333;
+        height: 30rem;
+        width: 25rem;
+        margin: auto;
+        flex-direction: column;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .find-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        margin: 0.5rem;
+        gap: 2rem;
+        justify-items: center;
+        align-items: center;
+        align-content: center;
+    }
+
+    .navList {
+        gap: 0.5rem;
+    }
+
+    .bioEditorText {
+        width: 25rem;
+        height: 16rem;
+        padding: 1rem;
+        font-size: 1rem;
+    }
+
+    .bio-editor form {
+        display: flex;
+        flex-direction: column;
+        width: 25rem;
+        align-items: flex-start;
+        align-content: center;
+    }
+
+    .chatInput {
+    width: 25rem;
+}
+
+.chatLi {
+    width: 25rem;
+}
+
 }
 
 @media screen and (max-width: 767px) {
+    /* .navImage {
+        display: none;
+    } */
+
+    .icon {
+        display: none;
+    }
+
     .nav__menu {
         position: fixed;
         top: 3rem;
@@ -491,6 +897,51 @@ body {
 }
 
 @media screen and (max-width: 768px) {
+    /* .navImage {
+        display: none;
+    } */
+
+    .nav__menu {
+        position: fixed;
+        top: 3rem;
+        right: -100%;
+        width: 80%;
+        height: 100%;
+        padding: 2rem;
+        background-color: #ffc300;
+        transition: 0.5s;
+    }
 }
 @media screen and (max-width: 992px) {
+    .modal-content {
+        /* width: 50rem; */
+    }
+
+    .nav__menu {
+        position: fixed;
+        top: 3rem;
+        right: -100%;
+        width: 80%;
+        height: 100%;
+        padding: 2rem;
+        background-color: #ffc300;
+        transition: 0.5s;
+    }
+
+    .navImage {
+        display: none;
+    }
+
+    .input {
+        border: none;
+        border-radius: 0.3rem;
+        font-size: 1rem;
+        padding: 0.2rem;
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .icon {
+        display: none;
+    }
 }

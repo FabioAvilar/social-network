@@ -29,7 +29,7 @@ export default function BioEditor({ bio, onBioUpdate }) {
         onBioUpdate(newBio);
         setEding(false);
     }
-
+    
     function renderForm() {
         return (
             <form onSubmit={onSubmit}>
@@ -38,8 +38,8 @@ export default function BioEditor({ bio, onBioUpdate }) {
             </form>
         );
     }
-
     const buttonLabel = isEditing ? "Cancel" : "Edit bio";
+
     return (
         <div className="bio-editor">
             {isEditing ? renderForm() : <p></p>}

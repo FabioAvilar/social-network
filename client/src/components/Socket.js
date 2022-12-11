@@ -1,18 +1,9 @@
 import ProfilePicture from "../components/ProfilePicture";
 import io from "socket.io-client";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 let socket;
-
-// lazy initialise pattern!
-// const connect = () => {
-//     if (!socket) {
-//         socket = io.connect();
-//     }
-//     return socket;
-// };
-
-// const disconnect = () => (socket = null);
 
 export default function NewComponent() {
     const formatDate = (timestamp) => {
@@ -60,32 +51,32 @@ export default function NewComponent() {
         });
     }
 
-    // useEffect(() => {
-    //     socket = connect();
-    //     socket.on("Brazil", (string) => {
-    //         console.log(string);
-    //     });
-    // }, []);
     return (
         <section>
-            <div>
-                <h2>Chat</h2>
-
+            <h2 className="homeSubTittle chatTittle">Chat</h2>
+            <div className="chatMessages">
                 {messages.length ? (
-                    <ul>
+                    <ul className="chatUl">
                         {messages.map((message) => (
-                            <li key={`chat-message-${message.id}`}>
-                                <ProfilePicture
-                                    profile_picture_url={
-                                        message.profile_picture_url
-                                    }
-                                    first_name={message.first_name} 
-                                    last_name={message.last_name}
-                                />
+                            <li
+                                id="elemento"
+                                className="chatLi"
+                                key={`chat-message-${message.id}`}
+                            >
+                                <Link to={`/user/${message.id}`}>
+                                    <ProfilePicture
+                                        profile_picture_url={
+                                            message.profile_picture_url
+                                        }
+                                        first_name={message.first_name}
+                                        last_name={message.last_name}
+                                    />
+                                </Link>
                                 <div>
                                     <div>
-                                        <span
-                                        >{`${message.first_name} ${message.last_name}`}</span>
+                                        <Link to={`/user/${message.id}`}>
+                                            <span>{`${message.first_name} ${message.last_name} `}</span>
+                                        </Link>
                                         <span>
                                             {formatDate(message.created_at)}
                                         </span>
@@ -98,13 +89,17 @@ export default function NewComponent() {
                 ) : (
                     <div>It is very silent here.</div>
                 )}
-                <form onSubmit={onSubmit}>
-                    <input 
+                <form className="chatForm" onSubmit={onSubmit}>
+                    <textarea
                         type="text"
                         name="text"
                         placeholder="Type something"
+                        className="chatInput"
+                        id="elemento"
                     />
-                    <button type="submit">Send</button>
+                    <button className="button" type="submit">
+                        Send
+                    </button>
                 </form>
             </div>
         </section>

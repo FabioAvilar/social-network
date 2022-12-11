@@ -67,6 +67,7 @@ const App = () => {
                         first_name={user.first_name}
                         last_name={user.last_name}
                         onClick={onPictureClick}
+                        // className="navImage"
                     />
                 </nav>
                 {modalVisible && (
