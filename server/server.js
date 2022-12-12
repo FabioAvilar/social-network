@@ -31,16 +31,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 const { SESSION_SECRET } = require("./secrets.json");
 
-// app.use(
-//     cookieSession({
-//         secret: SESSION_SECRET,
-//         maxAge: 1000 * 60 * 60 * 24 * 14,
-//         sameSite: true,
-//     })
-// );
-
-// SOCKET IO
-
 const cookieSessionMiddleware = cookieSession({
     secret: SESSION_SECRET,
     maxAge: 1000 * 60 * 60 * 24 * 14,

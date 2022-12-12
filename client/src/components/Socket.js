@@ -26,7 +26,6 @@ export default function NewComponent() {
         return () => {
             socket.off("recentMessages");
             socket.disconnect();
-            socket = null;
         };
     }, []);
 
