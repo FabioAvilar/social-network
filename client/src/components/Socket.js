@@ -18,26 +18,34 @@ export default function NewComponent() {
         if (!socket) {
             socket = io.connect();
         }
+        console.log("socket", socket);
 
         // listen to the recent messages on connect
-        socket.on("recentMessages", (messages) => setMessages(messages));
+        socket.on("recentMessages", (messages) => {
+            setMessages(messages);
+            // console.log("messages", messages);
+        });
 
         // cleanup function
         return () => {
             socket.off("recentMessages");
             socket.disconnect();
+            socket = null;
         };
     }, []);
 
     useEffect(() => {
         // listen to an new incoming message
         socket.on("newMessage", (newMessage) => {
-            console.log("newMessage", newMessage);
+            // console.log("newMessage", newMessage);
             setMessages([...messages, newMessage]);
         });
 
         // cleanup function
         return () => {
+            if (!socket) {
+                return;
+            }
             socket.off("newMessage");
         };
     }, [messages]);
@@ -62,7 +70,7 @@ export default function NewComponent() {
                                 className="chatLi"
                                 key={`chat-message-${message.id}`}
                             >
-                                <Link to={`/user/${message.id}`}>
+                                <Link to={`/user/${message.sender_id}`}>
                                     <ProfilePicture
                                         profile_picture_url={
                                             message.profile_picture_url
@@ -73,7 +81,7 @@ export default function NewComponent() {
                                 </Link>
                                 <div>
                                     <div>
-                                        <Link to={`/user/${message.id}`}>
+                                        <Link to={`/user/${message.sender_id}`}>
                                             <span>{`${message.first_name} ${message.last_name} `}</span>
                                         </Link>
                                         <span>

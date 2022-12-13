@@ -1,4 +1,5 @@
 import { useState } from "react";
+import {Link} from "react-router-dom";
 
 export default function BioEditor({ bio, onBioUpdate }) {
     const [isEditing, setIsEditing] = useState(false);
@@ -49,10 +50,14 @@ export default function BioEditor({ bio, onBioUpdate }) {
     }
 
     async function onDeleteUser() {
-        
+        if (!confirm("Are you sure?")) {
+            return;
+        }
         // console.log("teste de delete", response);
         try {
-            await fetch("/api/delete");
+            await fetch("/api/delete", {
+                method: "POST"
+            });
             window.location.reload();
         } catch (error) {
             console.log("error", error);
@@ -65,9 +70,11 @@ export default function BioEditor({ bio, onBioUpdate }) {
             <button className="button" onClick={onEditButtonClick}>
                 {buttonLabel}
             </button>
-            <button className="button" onClick={onUpdateDates}>
-                Update Dates
-            </button>
+            <Link to="/edit">
+                <button className="button" onClick={onUpdateDates}>
+                    Update Dates
+                </button>
+            </Link>
             <button className="button" onClick={onDeleteUser}>
                 Delete Count
             </button>

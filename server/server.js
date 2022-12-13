@@ -143,19 +143,6 @@ app.post("/api/users/me/bio", async (req, res) => {
     }
 });
 
-app.get("/api/delete", async (req, res) => {
-    try {
-        const deleteUsers = await deleteYourCount(
-            req.session.user_id
-        );
-        console.log("tests server DELETE ME :", deleteUsers);
-        req.session = null;
-        res.json(deleteUsers);
-    } catch (error) {
-        console.log("error DELETE ME 🩻🩻 : ", error);
-    }
-});
-
 app.get("/api/users", async (req, res) => {
     console.log("********* /api/users ***********");
     console.log("req.query: ", req.query);
@@ -271,6 +258,33 @@ app.get("/api/friendships", async (req, res) => {
             status: getFriendshipStatus(friendship, req.session.user_id),
         }))
     );
+});
+
+app.post("/api/delete", async (req, res) => {
+    try {
+        const deleteUsers = await deleteYourCount(req.session.user_id);
+        console.log("tests server DELETE ME :", deleteUsers);
+        req.session = null;
+        res.json(deleteUsers);
+    } catch (error) {
+        console.log("error DELETE ME 🩻🩻 : ", error);
+    }
+});
+
+app.post("/api/edit", async (req, res) => {
+    console.log("pagina do edit 🎮🎮🎮🎮", req.session);
+    console.log("pagina do edit 😝😝😝😝", {...req.body});
+    try {
+        const { user_id } = req.session;
+        await updateUser({
+            ...req.body,
+            user_id,
+        });
+
+        res.redirect("/");
+    } catch (error) {
+        console.log("teste erro updateUser ", error);
+    }
 });
 
 app.get("/logout", (req, res) => {

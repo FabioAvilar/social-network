@@ -8,6 +8,10 @@ export default function Header() {
         setShowMenu(!showMenu);
     }
 
+    function onMenuClick() {
+        setShowMenu(false);
+    }
+
     return (
         <>
             {/* <div>
@@ -27,7 +31,7 @@ export default function Header() {
                 <button className="button buttonHeader" onClick={onClick}>
                     ☰
                 </button>
-                <ul className="nav__list navList ">
+                <ul className="nav__list navList " onClick={onMenuClick}>
                     <li>
                         <Link className="nav__link active" to="/">
                             Home

@@ -8,6 +8,7 @@ import FindUsers from "../components/FindUsers";
 import OtherProfile from "../components/OtherProfile";
 import Friends from "./Friends";
 import NewComponent from "../components/Socket";
+import UpdateProfile from "../components/UpdateProfile";
 
 const App = () => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -91,6 +92,16 @@ const App = () => {
                 <Route path="/user/:id" element={<OtherProfile />} />
                 <Route path="/friendships" element={<Friends />} />
                 <Route path="/chat" element={<NewComponent />} />
+                <Route
+                    path="/edit"
+                    element={
+                        <UpdateProfile
+                            first_name={user.first_name}
+                            last_name={user.last_name}
+                            email={user.email}
+                        />
+                    }
+                />
             </Routes>
         </BrowserRouter>
     );

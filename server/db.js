@@ -224,6 +224,7 @@ async function deleteYourCount(user_id) {
 }
 
 async function updateUser({first_name, last_name, email, user_id}) {
+    console.log("teste do DB:   ", first_name, last_name, email, user_id);
     const results = await db.query(
         `
         UPDATE users SET first_name=$1, last_name=$2, email=$3
@@ -234,6 +235,9 @@ async function updateUser({first_name, last_name, email, user_id}) {
     );
     return results.rows[0];
 }
+
+
+
 
 module.exports = {
     createUser,

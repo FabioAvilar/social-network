@@ -1,21 +1,26 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
-const RegisterForm = () => {
-    const [error, setError] = useState("");
+export default function UpdateProfile({first_name, last_name, email}) {
+    const [update, setUpdate] = useState("");
+    const [name, setName] = useState(first_name);
+    const [lastName, setLastName] = useState(last_name);
+    const [emaill, setEmail] = useState(email);
 
     async function onSubmit(event) {
         event.preventDefault();
         // console.log("its submits");
 
-        const response = await fetch("/api/users", {
+        const response = await fetch("/api/edit", {
             method: "POST",
             body: JSON.stringify({
-                first_name: event.target.first_name.value,
-                last_name: event.target.last_name.value,
-                email: event.target.email.value,
-                password: event.target.password.value,
+                // first_name: event.target.first_name.value,
+                // last_name: event.target.last_name.value,
+                // email: event.target.email.value,
 
+                first_name: name,
+                last_name: lastName,
+                email: emaill,
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -28,15 +33,15 @@ const RegisterForm = () => {
 
         try {
             const data = await response.json();
-            setError(data.error);
+            setUpdate(data.error);
         } catch (error) {
-            console.log("Something is really broken");
+            console.log("We were unable to change the data");
         }
     }
 
     return (
         <section className="loginHome">
-            <h2 className="loginTitle">Register</h2>
+            <h2 className="loginTitle">Update</h2>
             <form onSubmit={onSubmit} className="loginHome">
                 <label htmlFor="first_name" className="label">
                     Type Your First Name
@@ -45,9 +50,9 @@ const RegisterForm = () => {
                     type="text"
                     name="first_name"
                     id="first_name"
-                    placeholder="First Name"
+                    value={name}
                     className="input"
-                    required
+                    onChange={(event) => setName(event.target.value)}
                 />
 
                 <label htmlFor="last_name" className="label">
@@ -57,9 +62,9 @@ const RegisterForm = () => {
                     type="text"
                     name="last_name"
                     id="last_name"
-                    placeholder="Last Name"
+                    value={lastName}
                     className="input"
-                    required
+                    onChange={(event) => setLastName(event.target.value)}
                 />
 
                 <label htmlFor="email" className="label">
@@ -69,34 +74,21 @@ const RegisterForm = () => {
                     type="email"
                     name="email"
                     id="email"
-                    placeholder="Enter email"
+                    value={emaill}
                     className="input"
-                    required
+                    onChange={(event) => setEmail(event.target.value)}
                 />
 
-                <label htmlFor="email" className="label">
-                    Type Your Password
-                </label>
-                <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    placeholder="Password"
-                    className="input"
-                    required
-                />
                 <div className="loginButtons">
                     <button type="Submit" className="button">
-                        Register
+                        Update
                     </button>
-                    {error && <p className="">{error}</p>}
+                    {update && <p className="">{update}</p>}
                     <Link to="/" className="button">
-                        Click here to Login
+                        Cancel
                     </Link>
                 </div>
             </form>
         </section>
     );
-};
-
-export default RegisterForm;
+}
