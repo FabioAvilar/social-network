@@ -726,7 +726,7 @@ html {
     }
 
     .profile {
-        width: 30rem;
+        width: 20rem;
     }
 
     .navHeader {
@@ -759,11 +759,11 @@ html {
     }
 
     .chatInput {
-        width: 25rem;
+        width: 22rem;
     }
 
     .chatLi {
-        width: 25rem;
+        width: 22rem;
     }
 
     .modal-content {
@@ -830,5 +830,11 @@ html {
 
     .chatLi {
         width: 25rem;
+    }
+}
+
+@media screen and (min-width: 1051px) {
+    .buttonHeader {
+        display: none;
     }
 }

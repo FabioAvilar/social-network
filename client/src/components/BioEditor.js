@@ -1,11 +1,11 @@
 import { useState } from "react";
 
 export default function BioEditor({ bio, onBioUpdate }) {
-    const [isEditing, setEding] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
 
     function onEditButtonClick() {
         // console.log("BioEditor: onEditButtonClick");
-        setEding(!isEditing);
+        setIsEditing(!isEditing);
     }
 
     async function onSubmit(event) {
@@ -27,23 +27,50 @@ export default function BioEditor({ bio, onBioUpdate }) {
         }
 
         onBioUpdate(newBio);
-        setEding(false);
+        setIsEditing(false);
     }
-    
+
     function renderForm() {
         return (
             <form onSubmit={onSubmit}>
-                <textarea name="bio" defaultValue={bio} className="bioEditorText" />
+                <textarea
+                    name="bio"
+                    defaultValue={bio}
+                    className="bioEditorText"
+                />
                 <button className="button">Save Bio</button>
             </form>
         );
     }
     const buttonLabel = isEditing ? "Cancel" : "Edit bio";
 
+    function onUpdateDates() {
+        console.log("new information 🥳", isEditing);
+    }
+
+    async function onDeleteUser() {
+        
+        // console.log("teste de delete", response);
+        try {
+            await fetch("/api/delete");
+            window.location.reload();
+        } catch (error) {
+            console.log("error", error);
+        }
+    }
+
     return (
         <div className="bio-editor">
             {isEditing ? renderForm() : <p></p>}
-            <button className="button" onClick={onEditButtonClick}>{buttonLabel}</button>
+            <button className="button" onClick={onEditButtonClick}>
+                {buttonLabel}
+            </button>
+            <button className="button" onClick={onUpdateDates}>
+                Update Dates
+            </button>
+            <button className="button" onClick={onDeleteUser}>
+                Delete Count
+            </button>
         </div>
     );
 }

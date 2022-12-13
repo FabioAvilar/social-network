@@ -19,6 +19,8 @@ const {
     getFriends,
     getChatMessages,
     createChatMessage,
+    deleteYourCount,
+    updateUser,
 } = require("./db");
 
 const s3upload = require("./s3");
@@ -138,6 +140,19 @@ app.post("/api/users/me/bio", async (req, res) => {
         res.json(newBio);
     } catch (error) {
         console.log("error updateBio 😱 : ", error);
+    }
+});
+
+app.get("/api/delete", async (req, res) => {
+    try {
+        const deleteUsers = await deleteYourCount(
+            req.session.user_id
+        );
+        console.log("tests server DELETE ME :", deleteUsers);
+        req.session = null;
+        res.json(deleteUsers);
+    } catch (error) {
+        console.log("error DELETE ME 🩻🩻 : ", error);
     }
 });
 
@@ -267,8 +282,8 @@ app.get("*", function (req, res) {
 });
 
 io.on("connection", async (socket) => {
-    // console.log("[social:socket] incoming socked connection", socket.id);
-    // console.log("session", socket.request.session);
+    console.log("[social:socket] incoming socked connection", socket.id);
+    console.log("session", socket.request.session);
     const { user_id } = socket.request.session;
     if (!user_id) {
         return socket.disconnect(true);
@@ -277,6 +292,7 @@ io.on("connection", async (socket) => {
 
     // send back the latest 10 messages to every new connected user
     const messages = await getChatMessages({ limit: 10 });
+    console.log("messages", messages);
     socket.emit("recentMessages", messages.reverse());
 
     socket.on("sendMessage", async ({ text }) => {

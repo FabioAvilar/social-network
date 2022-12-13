@@ -211,6 +211,30 @@ async function createChatMessage({ sender_id, text }) {
     return results.rows[0];
 }
 
+async function deleteYourCount(user_id) {
+    const result = await db.query(
+        `
+        DELETE FROM users
+        WHERE id = $1
+        RETURNING *
+    `,
+        [user_id]
+    );
+    return result.rows;
+}
+
+async function updateUser({first_name, last_name, email, user_id}) {
+    const results = await db.query(
+        `
+        UPDATE users SET first_name=$1, last_name=$2, email=$3
+        WHERE id=$4
+        RETURNING *
+    `,
+        [first_name, last_name, email, user_id]
+    );
+    return results.rows[0];
+}
+
 module.exports = {
     createUser,
     login,
@@ -226,4 +250,6 @@ module.exports = {
     getFriends,
     getChatMessages,
     createChatMessage,
+    deleteYourCount,
+    updateUser,
 };
